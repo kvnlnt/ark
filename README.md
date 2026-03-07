@@ -5,4 +5,5 @@
 ```bash
 bun install
 bun link ark
+ark setup
 ```

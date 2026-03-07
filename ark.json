@@ -4,6 +4,10 @@
 	"usage": "bun ark.ts <command>",
 	"commands": [
 		{
+			"name": "setup",
+			"description": "Set up the dev environment (install git hooks, etc.)"
+		},
+		{
 			"name": "clean",
 			"description": "Remove generated files and node_modules from all packages"
 		},
