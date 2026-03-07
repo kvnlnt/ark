@@ -1,5 +1,5 @@
 [scripts]
-lint = "eslint . --fix"
+lint = "bunx --bun @biomejs/biome lint"
 
 [git-hooks]
-pre-commit = "bunx --bun @biomejs/biome lint"
+pre-commit = "bun run lint"
