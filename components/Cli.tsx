@@ -1,4 +1,7 @@
 import { Box, render, Text } from "ink";
+import { spawn } from "node:child_process";
+import { existsSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { type Command } from "./CommandList.tsx";
 import { Header } from "./Header.tsx";
 import { HelpScreen } from "./HelpScreen.tsx";
@@ -9,11 +12,6 @@ export interface CliConfig {
   description: string;
   usage: string;
   commands: Command[];
-}
-
-interface CliProps {
-  config: CliConfig;
-  views?: Record<string, React.ReactNode>;
 }
 
 const builtinCommands: Command[] = [
@@ -52,8 +50,18 @@ function Help({ config }: { config: CliConfig }) {
   return <HelpScreen name={config.name} usage={config.usage} commands={allCommands} />;
 }
 
-export function runCli(config: CliConfig, views?: Record<string, React.ReactNode>) {
+function runTask(taskPath: string) {
+  const args = process.argv.slice(3);
+  const child = spawn("bun", [taskPath, ...args], {
+    stdio: "inherit",
+    cwd: dirname(taskPath),
+  });
+  child.on("close", (code) => process.exit(code ?? 0));
+}
+
+export function runCli(config: CliConfig, callerPath: string) {
   const command = process.argv[2];
+  const callerDir = dirname(callerPath);
 
   const builtinViews: Record<string, React.ReactNode> = {
     help: <Help config={config} />,
@@ -61,7 +69,20 @@ export function runCli(config: CliConfig, views?: Record<string, React.ReactNode
     tools: <Tools config={config} />,
   };
 
-  const allViews = { ...builtinViews, ...views };
+  if (command && builtinViews[command]) {
+    render(builtinViews[command]);
+    return;
+  }
 
-  render(command && allViews[command] ? allViews[command] : <Help config={config} />);
+  const taskCommand = config.commands.find((c) => c.name === command);
+  if (taskCommand) {
+    const tasksDir = join(callerDir, "tasks");
+    const tsPath = join(tasksDir, `${taskCommand.name}.ts`);
+    const tsxPath = join(tasksDir, `${taskCommand.name}.tsx`);
+    const taskPath = existsSync(tsxPath) ? tsxPath : tsPath;
+    runTask(taskPath);
+    return;
+  }
+
+  render(<Help config={config} />);
 }

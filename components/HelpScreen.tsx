@@ -17,8 +17,8 @@ export function HelpScreen({ name, version, description, usage, commands }: Help
       {description && <Text>{description}</Text>}
       {usage && (
         <Box flexDirection="column">
-          <Text bold>Usage:</Text>
-          <Box marginLeft={2}>
+          <Box>
+            <Text bold>Usage: </Text>
             <Text dimColor>{usage}</Text>
           </Box>
         </Box>

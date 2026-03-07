@@ -1,6 +1,6 @@
 {
-  "name": "schema",
-  "module": "index.tsx",
+  "name": "db",
+  "module": "db.ts",
   "type": "module",
   "private": true,
   "workspaces": [

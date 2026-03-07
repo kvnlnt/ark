@@ -1,6 +1,10 @@
 {
   "name": "Ark",
-  "description": "A CLI harness that orchestrates sub-CLIs. Ark provides the shared UI primitives—headers, help screens, sections, and command lists—used across all Ark packages, and acts as the root entry point for managing them.",
-  "usage": "bun cli.tsx <command>",
-  "commands": []
+  "description": "The root level developer command-line and agent harness for managing the codebase.",
+  "usage": "bun ark.ts <command>",
+  "commands": [
+    { "name": "clean", "description": "Remove generated files and node_modules from all packages" },
+    { "name": "pkg-list", "description": "List all packages with their descriptions" },
+    { "name": "pkg-new", "description": "Scaffold a new package in /pkg" }
+  ]
 }

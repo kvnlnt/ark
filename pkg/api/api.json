@@ -1,0 +1,6 @@
+{
+  "name": "Api",
+  "description": "The Api CLI.",
+  "usage": "bun api.ts <command>",
+  "commands": []
+}

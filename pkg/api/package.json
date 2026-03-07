@@ -1,6 +1,6 @@
 {
-  "name": "schema",
-  "module": "index.tsx",
+  "name": "api",
+  "module": "api.ts",
   "type": "module",
   "private": true,
   "workspaces": [

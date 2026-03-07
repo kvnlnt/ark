@@ -29,8 +29,8 @@
     // Path aliases
     "baseUrl": ".",
     "paths": {
-      "ark/*": ["./components/*"]
+      "@ark/*": ["./*"],
+      "@schema/*": ["./pkg/schema/*"]
     }
-  },
-  "files": ["env.d.ts"]
+  }
 }

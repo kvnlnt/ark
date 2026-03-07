@@ -1,4 +1,4 @@
 import config from "./ark.json";
 import { runCli, type CliConfig } from "./components/Cli.tsx";
 
-runCli(config as CliConfig);
+runCli(config as CliConfig, import.meta.path);

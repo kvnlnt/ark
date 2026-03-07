@@ -1,24 +1,21 @@
 import { Box, Text } from "ink";
+import { type ListItem } from "./List.tsx";
 
-export interface Command {
-  name: string;
-  description: string;
-}
+export type Command = ListItem;
 
 interface CommandListProps {
   commands: Command[];
 }
 
 export function CommandList({ commands }: CommandListProps) {
-  const maxLen = Math.max(...commands.map((c) => c.name.length));
+  const maxLen = Math.max(...commands.map((i) => i.name.length));
 
   return (
     <Box flexDirection="column">
-      <Text bold>Commands:</Text>
-      {commands.map((cmd) => (
-        <Box key={cmd.name} gap={3} marginLeft={2}>
-          <Text color="green">{cmd.name.padEnd(maxLen)}</Text>
-          <Text>{cmd.description}</Text>
+      {commands.map((item) => (
+        <Box key={item.name} flexDirection="row" gap={2}>
+          <Text color="green">{item.name.padEnd(maxLen)}</Text>
+          <Text>{item.description}</Text>
         </Box>
       ))}
     </Box>
