@@ -1,0 +1,6 @@
+{
+  "name": "Ark",
+  "description": "A CLI harness that orchestrates sub-CLIs. Ark provides the shared UI primitives—headers, help screens, sections, and command lists—used across all Ark packages, and acts as the root entry point for managing them.",
+  "usage": "bun cli.tsx <command>",
+  "commands": []
+}
