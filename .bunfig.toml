@@ -1,5 +1,5 @@
 [scripts]
-lint = "bunx --bun @biomejs/biome lint"
+lint = "bunx --bun @biomejs/biome lint --max-warnings=0"
 
 [git-hooks]
-pre-commit = "bun run lint"
+pre-commit = "bun run lint || exit 1"
