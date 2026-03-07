@@ -4,10 +4,5 @@ import { type CliConfig, runCli } from "./components/Cli.ts";
 
 runCli(config as CliConfig, import.meta.path);
 
+// unused var to test pre-commit hook
 let unusedVar = 42;
-
-function greet(name) {
-	console.log("Hello " + name);
-}
-
-greet("World");
