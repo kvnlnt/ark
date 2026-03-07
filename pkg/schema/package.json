@@ -1,14 +1,14 @@
 {
-  "name": "schema",
-  "module": "index.tsx",
-  "type": "module",
-  "private": true,
-  "workspaces": [
-    "pkg/*"
-  ],
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {},
-  "dependencies": {}
+	"name": "schema",
+	"module": "schema.ts",
+	"type": "module",
+	"private": true,
+	"workspaces": [
+		"pkg/*"
+	],
+	"devDependencies": {
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {},
+	"dependencies": {}
 }

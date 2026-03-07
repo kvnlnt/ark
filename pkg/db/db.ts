@@ -1,4 +1,5 @@
-import { runCli, type CliConfig } from "@ark/components/Cli";
+#!/usr/bin/env bun
+import { type CliConfig, runCli } from "@ark/components/Cli";
 import config from "./db.json";
 
 runCli(config as CliConfig, import.meta.path);

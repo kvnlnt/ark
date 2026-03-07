@@ -1,6 +1,6 @@
 {
-  "name": "Db",
-  "description": "The Db CLI.",
-  "usage": "bun db.ts <command>",
-  "commands": []
+	"name": "Db",
+	"description": "The Db CLI.",
+	"usage": "bun db.ts <command>",
+	"commands": []
 }

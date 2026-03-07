@@ -1,10 +1,36 @@
 {
-  "name": "Ark",
-  "description": "The root level developer command-line and agent harness for managing the codebase.",
-  "usage": "bun ark.ts <command>",
-  "commands": [
-    { "name": "clean", "description": "Remove generated files and node_modules from all packages" },
-    { "name": "pkg-list", "description": "List all packages with their descriptions" },
-    { "name": "pkg-new", "description": "Scaffold a new package in /pkg" }
-  ]
+	"name": "Ark",
+	"description": "The root level developer command-line and agent harness for managing the codebase.",
+	"usage": "bun ark.ts <command>",
+	"commands": [
+		{
+			"name": "clean",
+			"description": "Remove generated files and node_modules from all packages"
+		},
+		{
+			"name": "pkg-list",
+			"description": "List all packages with their descriptions"
+		},
+		{ "name": "pkg-new", "description": "Scaffold a new package in /pkg" },
+		{
+			"name": "pkg-run",
+			"description": "Run a package CLI: bun ark.ts pkg <name> [command] [args...]"
+		},
+		{
+			"name": "lint-format",
+			"description": "Format files with Biome (pass specific files or omit for all)"
+		},
+		{
+			"name": "lint-lint",
+			"description": "Lint files with Biome without applying fixes"
+		},
+		{
+			"name": "lint-fix",
+			"description": "Lint files and apply safe fixes with Biome"
+		},
+		{
+			"name": "lint-check",
+			"description": "Format, lint, and organize imports with Biome (all-in-one)"
+		}
+	]
 }

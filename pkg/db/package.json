@@ -1,14 +1,14 @@
 {
-  "name": "db",
-  "module": "db.ts",
-  "type": "module",
-  "private": true,
-  "workspaces": [
-    "pkg/*"
-  ],
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {},
-  "dependencies": {}
+	"name": "db",
+	"module": "db.ts",
+	"type": "module",
+	"private": true,
+	"workspaces": [
+		"pkg/*"
+	],
+	"devDependencies": {
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {},
+	"dependencies": {}
 }

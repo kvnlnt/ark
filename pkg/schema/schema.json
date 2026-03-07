@@ -1,6 +1,6 @@
 {
-  "name": "Schema",
-  "description": "A command-line tool for managing and inspecting schemas. Built with Ink and React for a rich terminal UI experience. Use it to validate, generate, and explore schema definitions right from your terminal.",
-  "usage": "bun schema.ts <command>",
-  "commands": []
+	"name": "Schema",
+	"description": "The Schema CLI.",
+	"usage": "bun schema.ts <command>",
+	"commands": []
 }
