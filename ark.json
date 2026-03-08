@@ -12,15 +12,6 @@
 			"description": "Remove generated files and node_modules from all packages"
 		},
 		{
-			"name": "pkg-list",
-			"description": "List all packages with their descriptions"
-		},
-		{ "name": "pkg-new", "description": "Scaffold a new package in /pkg" },
-		{
-			"name": "pkg-run",
-			"description": "Run a package CLI: bun ark.ts pkg <name> [command] [args...]"
-		},
-		{
 			"name": "lint-format",
 			"description": "Format files with Biome (pass specific files or omit for all)"
 		},
@@ -35,6 +26,22 @@
 		{
 			"name": "lint-check",
 			"description": "Format, lint, and organize imports with Biome (all-in-one)"
+		},
+		{
+			"name": "schema-list",
+			"description": "List all registered schemas"
+		},
+		{
+			"name": "schema-validate",
+			"description": "Validate JSON data against a named schema"
+		},
+		{
+			"name": "schema-export",
+			"description": "Export schema(s) as JSON Schema"
+		},
+		{
+			"name": "schema-check",
+			"description": "Verify all schema definitions are valid and parseable"
 		}
 	]
 }

@@ -1,6 +1,0 @@
-{
-	"name": "Schema",
-	"description": "The Schema CLI.",
-	"usage": "bun schema.ts <command>",
-	"commands": []
-}
