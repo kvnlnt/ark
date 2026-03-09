@@ -11,23 +11,19 @@ const setup: Tool<SetupParams, SetupResult> = {
 	description: "Set up the dev environment (install git hooks, etc.)",
 	run: async () => {
 		const rootDir = join(import.meta.dir, "..", "..");
-		const hooksSource = join(rootDir, "hooks");
+
+		// install git hooks
+		const preCommitSource = join(rootDir, "cli", "templates", "pre-commit");
 		const hooksDest = join(rootDir, ".git", "hooks");
 		await mkdir(hooksDest, { recursive: true });
-		const hooks = ["pre-commit"];
-		const installed: string[] = [];
+		const preCommitDest = join(hooksDest, "pre-commit");
+		await copyFile(preCommitSource, preCommitDest);
+		await chmod(preCommitDest, 0o755);
+		process.stderr.write(`installed hook: pre-commit\n`);
 
-		for (const hook of hooks) {
-			const src = join(hooksSource, hook);
-			const dest = join(hooksDest, hook);
-			await copyFile(src, dest);
-			await chmod(dest, 0o755);
-			process.stderr.write(`installed hook: ${hook}\n`);
-			installed.push(hook);
-		}
-
+		// potentially more setup tasks in the future...
 		process.stderr.write("setup complete\n");
-		return { ok: true, result: { installed } };
+		return { ok: true, result: { installed: ["pre-commit"] } };
 	},
 };
 

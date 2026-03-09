@@ -42,6 +42,10 @@
 		{
 			"name": "schema-check",
 			"description": "Verify all schema definitions are valid and parseable"
+		},
+		{
+			"name": "test",
+			"description": "Run *.test.ts files in cli/tools (optional filter arg)"
 		}
 	]
 }
