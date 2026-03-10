@@ -6,10 +6,11 @@
 
 # Ark
 
+Agentic codebase starter kit.
+
 ## Install
 
 ```bash
 bun install
-bun link ark
-ark setup
+bun run dev/tasks/setup.ts
 ```
