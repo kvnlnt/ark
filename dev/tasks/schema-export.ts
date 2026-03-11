@@ -1,10 +1,5 @@
 import { z } from "zod";
 import { registry } from "../../pkg/schema/registry.ts";
-import { serve } from "../serve.ts";
-import type { Tool, ToolRequest } from "../types.ts";
-
-type SchemaExportParams = { args?: string[] };
-type SchemaExportResult = { schemas: Record<string, unknown> };
 
 /**
  * Convert a Zod schema to a JSON-Schema-like representation.
@@ -20,34 +15,26 @@ function toJsonSchema(schema: z.ZodType): unknown {
 	}
 }
 
-const schemaExport: Tool<SchemaExportParams, SchemaExportResult> = {
-	name: "schema-export",
-	description: "Export schema(s) as JSON Schema",
-	run: async (request: ToolRequest<SchemaExportParams>) => {
-		const args = request.params.args ?? [];
+const run = async () => {
+	const args = process.argv.slice(2);
 
-		// If specific names given, export only those; otherwise export all.
-		const names = args.length > 0 ? args : Object.keys(registry);
+	// If specific names given, export only those; otherwise export all.
+	const names = args.length > 0 ? args : Object.keys(registry);
 
-		const schemas: Record<string, unknown> = {};
+	const schemas: Record<string, unknown> = {};
 
-		for (const name of names) {
-			const schema = registry[name];
-			if (!schema) {
-				process.stderr.write(`⚠ Unknown schema: ${name}\n`);
-				continue;
-			}
-			schemas[name] = toJsonSchema(schema);
+	for (const name of names) {
+		const schema = registry[name];
+		if (!schema) {
+			process.stderr.write(`⚠ Unknown schema: ${name}\n`);
+			continue;
 		}
+		schemas[name] = toJsonSchema(schema);
+	}
 
-		const output = JSON.stringify(schemas, null, 2);
-		process.stderr.write(`${output}\n`);
-		process.stderr.write(
-			`\nExported ${Object.keys(schemas).length} schema(s)\n`,
-		);
-
-		return { ok: true, result: { schemas } };
-	},
+	const output = JSON.stringify(schemas, null, 2);
+	process.stderr.write(`${output}\n`);
+	process.stderr.write(`\nExported ${Object.keys(schemas).length} schema(s)\n`);
 };
 
-serve(schemaExport);
+await run();
