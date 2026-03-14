@@ -1,0 +1,272 @@
+{
+	"version": "1.5.0",
+	"design": [
+		"Define a clear and consistent schema structure that includes entities, fields, and relationships to ensure data integrity and ease of use across the application."
+	],
+	"rules": {
+		"entities": {
+			"Scenario: Adding new entity": [
+				["Given", "Adding a new entity to the schema"],
+				["When", "Defining the entity's structure and metadata"],
+				[
+					"Then",
+					"The entity should have a unique name, a corresponding tableName, and well-defined fields with appropriate types and descriptions"
+				],
+				[
+					"And",
+					"Required fields should be marked as 'required' and optional fields as 'nullable'"
+				],
+				[
+					"And",
+					"Default values should be provided where applicable to simplify data entry and ensure consistency"
+				]
+			]
+		}
+	},
+	"scripts": {},
+	"templates": {
+		"entity": {
+			"id": {
+				"type": "uuid",
+				"description": "Unique identifier",
+				"fieldType": "static",
+				"required": true,
+				"unique": true,
+				"immutable": true,
+				"autoGenerate": true,
+				"validations": ["uuidValidation"],
+				"queries": ["GetEntityById"],
+				"mutations": [],
+				"flags": ["required", "unique"],
+				"default": null,
+				"nullable": false,
+				"private": false
+			},
+			"description": {
+				"name": "description",
+				"type": "string",
+				"description": "Entity description",
+				"nullable": true,
+				"fieldType": "static"
+			},
+			"version": {
+				"name": "version",
+				"type": "number",
+				"description": "Optimistic concurrency version",
+				"flags": ["required"],
+				"fieldType": "static"
+			},
+			"isActive": {
+				"name": "isActive",
+				"type": "boolean",
+				"description": "Whether the record is active",
+				"default": true,
+				"fieldType": "static"
+			},
+			"createdAt": {
+				"name": "createdAt",
+				"type": "datetime",
+				"description": "Creation timestamp",
+				"flags": ["required"],
+				"fieldType": "static"
+			},
+			"updatedAt": {
+				"name": "updatedAt",
+				"type": "datetime",
+				"description": "Last update timestamp",
+				"flags": ["required"],
+				"fieldType": "static"
+			},
+			"deletedAt": {
+				"name": "deletedAt",
+				"type": "datetime",
+				"description": "Soft-delete timestamp (when softDelete is true)",
+				"nullable": true,
+				"fieldType": "static"
+			},
+			"effDate": {
+				"name": "effDate",
+				"type": "datetime",
+				"description": "Effective date",
+				"flags": ["required"],
+				"default": "now",
+				"fieldType": "static"
+			},
+			"expDate": {
+				"name": "expDate",
+				"type": "datetime",
+				"description": "Expiration date (null means forever)",
+				"nullable": true,
+				"default": null,
+				"fieldType": "static"
+			}
+		}
+	},
+	"schema": {
+		"valueObjects": {},
+		"entities": {},
+		"aggregates": {},
+		"forms": {},
+		"queries": {},
+		"mutations": {},
+		"events": {},
+		"projections": {},
+		"constraints": {},
+		"validations": {}
+	},
+	"data": {
+		"entities": {
+			"User": {
+				"tableName": "users",
+				"description": "Stores application users and their credentials",
+				"fields": {
+					"id": {
+						"type": "uuid",
+						"primary": true,
+						"autoGenerate": true,
+						"description": "Unique identifier for the user",
+						"fieldType": "static"
+					},
+					"name": {
+						"type": "string",
+						"default": "New User",
+						"required": true,
+						"description": "Full name of the user",
+						"fieldType": "static"
+					},
+					"email": {
+						"type": "string",
+						"required": true,
+						"unique": true,
+						"description": "Email address of the user",
+						"fieldType": "static"
+					},
+					"isActive": {
+						"type": "boolean",
+						"default": true,
+						"description": "Whether the user is active",
+						"fieldType": "dynamic"
+					},
+					"createdAt": {
+						"type": "datetime",
+						"autoGenerate": "now",
+						"description": "When the user was created",
+						"fieldType": "static"
+					},
+					"updatedAt": {
+						"type": "datetime",
+						"autoUpdate": "now",
+						"description": "Last update timestamp for the user",
+						"fieldType": "static"
+					},
+					"deletedAt": {
+						"type": "datetime",
+						"nullable": true,
+						"description": "Soft-delete timestamp (when softDelete is true)",
+						"fieldType": "static"
+					},
+					"effDate": {
+						"type": "datetime",
+						"default": "now",
+						"description": "Effective date for the user record",
+						"fieldType": "static"
+					},
+					"expDate": {
+						"type": "datetime",
+						"nullable": true,
+						"default": null,
+						"description": "Expiration date for the user record (null means forever)",
+						"fieldType": "static"
+					}
+				}
+			},
+			"UserProfile": {
+				"tableName": "user_profiles",
+				"description": "Stores additional profile info for users",
+				"fields": {
+					"userId": {
+						"type": "uuid",
+						"primary": true,
+						"description": "Reference to the user"
+					},
+					"bio": {
+						"type": "text",
+						"nullable": true,
+						"description": "Short biography of the user"
+					},
+					"avatarUrl": {
+						"type": "string",
+						"nullable": true,
+						"description": "URL to the user's avatar image"
+					}
+				}
+			},
+			"Post": {
+				"tableName": "posts",
+				"description": "Stores posts created by users",
+				"fields": {
+					"id": {
+						"type": "uuid",
+						"primary": true,
+						"autoGenerate": true,
+						"description": "Unique identifier for the post"
+					},
+					"title": {
+						"type": "string",
+						"required": true,
+						"description": "Title of the post"
+					},
+					"body": {
+						"type": "text",
+						"required": true,
+						"description": "Main content of the post"
+					},
+					"authorId": {
+						"type": "uuid",
+						"required": true,
+						"description": "Reference to the author user"
+					},
+					"createdAt": {
+						"type": "datetime",
+						"autoGenerate": "now",
+						"description": "When the post was created"
+					}
+				}
+			}
+		},
+		"queries": {
+			"GetUser": {
+				"description": "Fetch a user by their unique identifier",
+				"entity": "User",
+				"args": {
+					"id": { "type": "uuid", "required": true }
+				},
+				"returns": "User"
+			},
+			"ListPosts": {
+				"description": "Retrieve a list of posts with optional filters",
+				"entity": "Post",
+				"args": {
+					"authorId": { "type": "uuid", "required": false },
+					"status": { "type": "postStatus", "required": false }
+				},
+				"returns": "Post[]"
+			}
+		},
+		"mutations": {
+			"CreatePost": {
+				"description": "Create a new post authored by a user",
+				"args": {
+					"title": { "entity": "Post", "field": "title", "required": true },
+					"body": { "entity": "Post", "field": "body", "required": true },
+					"authorId": {
+						"entity": "Post",
+						"field": "authorId",
+						"required": true
+					}
+				},
+				"returns": "Post"
+			}
+		}
+	}
+}

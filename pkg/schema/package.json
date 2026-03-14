@@ -1,10 +1,8 @@
 {
 	"name": "@ark/schema",
-	"version": "0.0.1",
+	"version": "0.0.0",
 	"type": "module",
 	"private": true,
-	"main": "index.ts",
 	"dependencies": {
-		"zod": "^4.3.6"
 	}
 }

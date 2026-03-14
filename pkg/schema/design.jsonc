@@ -1,0 +1,164 @@
+{
+	"id": "core-domain",
+	"description": "Canonical domain model used for generating APIs, forms, database schemas, and workflows.",
+	"version": "1.0.0",
+
+	"meta": {
+		// Tracks all changes made to the schema file for auditing and LLM context
+		"changeLog": [
+			{
+				"change": "Added User entity",
+				"rule": "addEntity",
+				"timestamp": "2026-03-12"
+			}
+		],
+
+		// Captures design decisions, rationale, and references for maintaining schema
+		"design": [
+			{
+				"decision": "Use UUIDs for all entity identities",
+				"rationale": "Allows distributed ID generation and simplifies merges",
+				"date": "2026-03-12"
+			},
+			{
+				"decision": "Separate domain concerns from persistence/validation",
+				"rationale": "Ensures schema stays clean and maintainable for generators",
+				"date": "2026-03-12"
+			}
+		],
+
+		// Config for generating llm prompts to run scripts
+		"directives": {
+			"addEntity": {
+				"description": "Procedure for adding a new entity",
+				"steps": [
+					{
+						"type": "text",
+						"description": "Define the entity name and its fields in the schema file according to the established structure."
+					},
+					{
+						"type": "input",
+						"inputType": "prompt",
+						"default": "first-value",
+						"description": "Enter the name of the entity",
+						"password": false
+					},
+					{
+						"type": "script",
+						"command": "bun scripts/generateEntity.ts --name ${entityName} --fields ${fieldsJson}",
+						"description": "Generates a new entity based on provided name and fields"
+					}
+				]
+			}
+		}
+	},
+
+	"data": {
+		// Primitive and derived types used in fields
+		"types": {
+			"uuid": {
+				"constraints": {
+					"type": "unique"
+				},
+				"validations": {
+					"type": "regex",
+					"pattern": "^[^@]+@[^@]+\\.[^@]+$"
+				}
+			},
+			"string": {},
+			"number": {},
+			"datetime": {},
+			"boolean": {},
+			"email": {
+				"base": "string",
+				"validations": ["emailFormat"]
+			}
+		},
+
+		// Immutable structures without identity
+		"valueObjects": {
+			"Money": {
+				"fields": {
+					"amount": { "type": "number", "description": "Monetary amount" },
+					"currency": {
+						"type": "string",
+						"description": "Currency code, e.g., USD"
+					}
+				}
+			},
+			"Address": {
+				"fields": {
+					"street": { "type": "string" },
+					"city": { "type": "string" },
+					"state": { "type": "string" },
+					"zip": { "type": "string" }
+				}
+			}
+		},
+
+		// Core objects with identity and behavior
+		"entities": {
+			"User": {
+				"description": "Represents a system user",
+				"fields": {
+					"id": {
+						"type": "uuid",
+						"role": "identity",
+						"immutable": true,
+						"persistence": { "primaryKey": true, "autoGenerate": true },
+						"validation": ["uuid"]
+					},
+					"email": { "type": "email", "role": "business", "nullable": false },
+					"name": { "type": "string", "role": "business", "nullable": false },
+					"isActive": {
+						"type": "boolean",
+						"role": "lifecycle",
+						"default": true
+					},
+					"createdAt": {
+						"type": "datetime",
+						"role": "audit",
+						"autoGenerate": "now"
+					},
+					"updatedAt": {
+						"type": "datetime",
+						"role": "audit",
+						"autoUpdate": "now"
+					}
+				}
+			},
+			"Order": {
+				"description": "Customer order",
+				"fields": {
+					"id": {
+						"type": "uuid",
+						"role": "identity",
+						"immutable": true,
+						"persistence": { "primaryKey": true, "autoGenerate": true }
+					},
+					"userId": { "type": "uuid", "role": "reference", "nullable": false },
+					"total": { "type": "Money", "role": "business" },
+					"status": {
+						"type": "string",
+						"role": "lifecycle",
+						"default": "pending"
+					},
+					"placedAt": {
+						"type": "datetime",
+						"role": "audit",
+						"autoGenerate": "now"
+					}
+				}
+			}
+		},
+
+		// Clusters of entities/valueObjects treated as a unit
+		"aggregates": {
+			"OrderAggregate": {
+				"root": "Order",
+				"entities": ["Order", "OrderItem"],
+				"valueObjects": ["Money", "Address"]
+			}
+		}
+	}
+}
